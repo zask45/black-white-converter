@@ -1,15 +1,11 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <div class="flex flex-col items-center">
+        <input type="file" accept="image/*" class="mb-10"></input>
+        <button class="bg-blue-600 font-semibold text-white px-2 py-2 rounded">Upload gambar</button>
+    </div>
   )
 }
 
