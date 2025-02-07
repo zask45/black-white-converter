@@ -3,16 +3,16 @@
 ## Init React
 Buat folder react
 ```
-yarn create vite client -- --template react
+npm create vite client -- --template react
 ```
 
 Install dependencies
 ```
 cd client
-yarn install
+npm install
 ```
 
 Coba run`client`
 ```
-yarn dev
+npm run dev
 ```
