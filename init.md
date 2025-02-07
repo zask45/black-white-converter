@@ -46,4 +46,8 @@ export default {
 ```
 
 Tambah tailwind directive di `index.css`
-
+```
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
