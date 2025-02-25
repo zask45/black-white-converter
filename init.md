@@ -51,3 +51,18 @@ Tambah tailwind directive di `index.css`
 @tailwind components;
 @tailwind utilities;
 ```
+
+---
+
+# Backend
+
+- Language: Go
+- Framework: Gin
+
+```
+go mod [nama module]
+```
+
+```
+go get github.com/gin-gonic/gin
+```
