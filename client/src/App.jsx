@@ -7,6 +7,23 @@ const App = () => {
     setImage(URL.createObjectURL(e.target.files[0]))
   }
 
+  const processImage = async() => {
+    const formData = new FormData()
+    formData.append("image", image)
+
+    try {
+      const response = await fetch("https://localhost:8080/upload", {
+        method: "POST",
+        body: formData,
+      })
+
+      if (!response.ok) throw new Error("Gagal memproses gambar")
+
+    } catch(error) {
+        console.error(error)
+    }
+  }
+
   return (
     <>
       <div class="flex items-center justify-center w-full">
