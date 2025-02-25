@@ -44,7 +44,7 @@ const App = () => {
       <img src={image} />
       
       <div class="flex flex-col items-center">
-          <button class="bg-blue-600 font-semibold text-white px-2 py-2 rounded">Upload gambar</button>
+          <button class="bg-blue-600 font-semibold text-white px-2 py-2 rounded" onClick={processImage}>Upload gambar</button>
       </div>
     </>
   )
