@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"image"
 	"image/color"
@@ -44,8 +45,8 @@ func processImage(c *gin.Context, folder string, filename string) string {
 	result := convertToBlackAndWhite(img, 128)
 
 	// Create new file to save result
-	result_file := filename + "_black_and_white"
-	outFile, err := os.Create(result_file)
+	result_filename := filename + "_black_and_white"
+	outFile, err := os.Create(result_filename)
 	if err != nil {
 		throwMessage(c, err.Error())
 	}
@@ -58,7 +59,7 @@ func processImage(c *gin.Context, folder string, filename string) string {
 	}
 
 	fmt.Println("Gambar berhasil diproses")
-	return result_file
+	return result_filename
 }
 
 func convertToBlackAndWhite(img image.Image, threshold uint8) *image.Gray {
