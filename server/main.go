@@ -66,6 +66,16 @@ func convertToBlackAndWhite(img image.Image, threshold uint8) *image.Gray {
 
 }
 
+func convertImageToBuffer(img image.Image) (*bytes.Buffer, error) {
+	var buf bytes.Buffer
+	err := png.Encode(&buf, img)
+	if err != nil {
+		return nil, err
+	}
+
+	return &buf, nil
+}
+
 func throwMessage(c *gin.Context, message string) {
 	c.JSON(400, gin.H{"message": message})
 	return
