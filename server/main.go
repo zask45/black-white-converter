@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"image"
+	"image/color"
 	"image/png"
 	"net/http"
 	"os"
@@ -66,7 +67,20 @@ func processImage(c *gin.Context, folder string, filename string) *bytes.Buffer 
 }
 
 func convertToBlackAndWhite(img image.Image, threshold uint8) *image.Gray {
+	bounds := img.Bounds()
+	bwImg := image.NewGray(bounds)
 
+	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+		for x := bounds.Min.X; x < bounds.Max.X; x++ {
+			if color.GrayModel.Convert(img.At(x, y)).(color.Gray).Y > threshold {
+				bwImg.Set(x, y, color.Gray{255}) // Putih
+			} else {
+				bwImg.Set(x, y, color.Gray{0}) // Hitam
+			}
+		}
+	}
+
+	return bwImg
 }
 
 func convertImageToBuffer(img image.Image) (*bytes.Buffer, error) {
