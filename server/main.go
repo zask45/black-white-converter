@@ -9,7 +9,9 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"time"
 )
 
 func postHandler(c *gin.Context) {
@@ -100,6 +102,16 @@ func throwMessage(c *gin.Context, message string) {
 
 func main() {
 	router := gin.Default()
+
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:5173"},
+		AllowMethods:     []string{"POST", "GET", "OPTIONS"},
+		AllowHeaders:     []string{"Content-Type"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
 	router.POST("/upload", postHandler)
 	fmt.Println("http://localhost:8080")
 	router.Run(":8080")
