@@ -4,14 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"image"
-	"image/color"
-	"image/jpeg"
 	"image/png"
-	"log"
 	"net/http"
 	"os"
-	"path/filepath"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,7 +22,7 @@ func postHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Upload sukses"})
 }
 
-func processImage(c *gin.Context, folder string, filename string) string {
+func processImage(c *gin.Context, folder string, filename string) *bytes.Buffer {
 	// Open file
 	file, err := os.Open(folder + filename)
 	if err != nil {
@@ -43,23 +38,29 @@ func processImage(c *gin.Context, folder string, filename string) string {
 
 	// Convert ke black and white
 	result := convertToBlackAndWhite(img, 128)
-
-	// Create new file to save result
-	result_filename := filename + "_black_and_white"
-	outFile, err := os.Create(result_filename)
+	buf, err := convertImageToBuffer(result)
 	if err != nil {
-		throwMessage(c, err.Error())
-	}
-	defer outFile.Close()
-
-	// Save result to PNG
-	err = png.Encode(outFile, result)
-	if err != nil {
-		throwMessage(c, "Gagal mengencoding gambar")
+		throwMessage(c, "Gagal mengconvert image ke buffer")
 	}
 
-	fmt.Println("Gambar berhasil diproses")
-	return result_filename
+	return buf
+
+	// // Create new file to save result
+	// result_filename := filename + "_black_and_white"
+	// outFile, err := os.Create(result_filename)
+	// if err != nil {
+	// 	throwMessage(c, err.Error())
+	// }
+	// defer outFile.Close()
+
+	// // Save result to PNG
+	// err = png.Encode(outFile, result)
+	// if err != nil {
+	// 	throwMessage(c, "Gagal mengencoding gambar")
+	// }
+
+	// fmt.Println("Gambar berhasil diproses")
+	// return result_filename
 }
 
 func convertToBlackAndWhite(img image.Image, threshold uint8) *image.Gray {
