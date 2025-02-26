@@ -2,14 +2,21 @@ import { useState } from "react"
 
 const App = () => {
   const [image, setImage] = useState()
+  const [selectedFile, setSelectedFile] = useState()
 
   const handleChange = (e) => {
     setImage(URL.createObjectURL(e.target.files[0]))
+    setSelectedFile(e.target.files[0])
   }
 
   const processImage = async() => {
     const formData = new FormData()
-    formData.append("image", image)
+    formData.append("file", selectedFile)
+
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1])
+    }
+    
 
     try {
       const response = await fetch("http://localhost:8080/upload", {
