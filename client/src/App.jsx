@@ -19,9 +19,15 @@ const App = () => {
 
       if (!response.ok) throw new Error("Gagal memproses gambar")
 
+      const blob = await response.blob()
+      const imgUrl = URL.createObjectURL(blob)
+  
+      document.getElementById("preview").src = imgUrl
+
     } catch(error) {
         console.error(error)
     }
+
   }
 
   return (
