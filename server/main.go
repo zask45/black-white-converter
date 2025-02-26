@@ -25,7 +25,7 @@ func postHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Upload sukses"})
 }
 
-func processImage(c *gin.Context, filename string) {
+func processImage(c *gin.Context, filename string) string {
 	// Open file
 	file, err := os.Open(filename)
 	if err != nil {
@@ -57,6 +57,7 @@ func processImage(c *gin.Context, filename string) {
 	}
 
 	fmt.Println("Gambar berhasil diproses")
+	return result_file
 }
 
 func convertToBlackAndWhite(img image.Image, threshold uint8) *image.Gray {
