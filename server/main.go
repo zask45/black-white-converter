@@ -22,7 +22,7 @@ func postHandler(c *gin.Context) {
 	file, _ := c.FormFile("file")
 
 	if file == nil {
-		log.Fatalf("file nil")
+		log.Fatalf("formfile kosong")
 		return
 	}
 
@@ -48,9 +48,10 @@ func processImage(path string) *bytes.Buffer {
 	defer file.Close()
 
 	// Decode image
-	img, _, _ := image.Decode(file)
+	img, format, _ := image.Decode(file)
+	fmt.Print(format)
 	if img == nil {
-		log.Fatalf("img nil")
+		log.Fatalf("decode process image gagal")
 	}
 
 	// Convert ke black and white
@@ -62,24 +63,6 @@ func processImage(path string) *bytes.Buffer {
 	}
 
 	return buf
-
-	// // Create new file to save result
-	// result_filename := filename + "_black_and_white"
-	// outFile, err := os.Create(result_filename)
-	// if err != nil {
-	// 	throwMessage(c, err.Error())
-	// }
-	// defer outFile.Close()
-
-	// // Save result to PNG
-	// err = png.Encode(outFile, result)
-	// if err != nil {
-	// 	throwMessage(c, "Gagal mengencoding gambar")
-	// }
-
-	// fmt.Println("Gambar berhasil diproses")
-	// return result_filename
-	// return nil
 }
 
 func convertToBlackAndWhite(img image.Image, threshold uint8) *image.Gray {
@@ -124,10 +107,6 @@ func main() {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
-
-	// router.GET("/", func(c *gin.Context) {
-	// 	c.String(http.StatusOK, "Server berjalan!")
-	// })
 
 	router.POST("/upload", postHandler)
 	fmt.Println("http://localhost:8080")
