@@ -43,7 +43,8 @@ func processImage(c *gin.Context, filename string) {
 	result := convertToBlackAndWhite(img, 128)
 
 	// Create new file to save result
-	outFile, err := os.Create(filename + "_black_and_white")
+	result_file := filename + "_black_and_white"
+	outFile, err := os.Create(result_file)
 	if err != nil {
 		throwMessage(c, err.Error())
 	}
