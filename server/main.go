@@ -26,9 +26,9 @@ func postHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Upload sukses"})
 }
 
-func processImage(c *gin.Context, filename string) string {
+func processImage(c *gin.Context, folder string, filename string) string {
 	// Open file
-	file, err := os.Open(filename)
+	file, err := os.Open(folder + filename)
 	if err != nil {
 		throwMessage(c, "Gagal membuka gambar")
 	}
