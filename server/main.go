@@ -19,9 +19,10 @@ func postHandler(c *gin.Context) {
 	file, _ := c.FormFile("file")
 
 	filename := file.Filename
-	c.SaveUploadedFile(file, filename)
+	folder := "uploads/"
+	c.SaveUploadedFile(file, folder+filename)
 
-	processImage(c, filename)
+	result_file := processImage(c, folder, filename)
 	c.JSON(http.StatusOK, gin.H{"message": "Upload sukses"})
 }
 
