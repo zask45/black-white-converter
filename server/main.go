@@ -6,46 +6,59 @@ import (
 	"image"
 	"image/color"
 	"image/png"
-	"net/http"
+	"path/filepath"
+
+	"log"
 	"os"
+
+	"net/http"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"time"
 )
 
 func postHandler(c *gin.Context) {
 	file, _ := c.FormFile("file")
 
-	filename := file.Filename
-	folder := "uploads/"
-	c.SaveUploadedFile(file, folder+filename)
+	if file == nil {
+		log.Fatalf("file nil")
+		return
+	}
 
-	buf := processImage(c, folder, filename)
+	os.MkdirAll("uploads", os.ModePerm) // Membuat folder jika belum ada
+	filepath := filepath.Join("uploads", file.Filename)
+	c.SaveUploadedFile(file, filepath)
+
+	buf := processImage(filepath)
+	if buf == nil {
+		log.Fatalf("gagal memproses gambar")
+	}
 	c.Data(http.StatusOK, "image/png", buf.Bytes())
 
 	c.JSON(http.StatusOK, gin.H{"message": "Upload sukses"})
 }
 
-func processImage(c *gin.Context, folder string, filename string) *bytes.Buffer {
+func processImage(path string) *bytes.Buffer {
 	// Open file
-	file, err := os.Open(folder + filename)
+	file, err := os.Open(path)
 	if err != nil {
-		throwMessage(c, "Gagal membuka gambar")
+		log.Fatalf("Gagal membuka file: %v", err)
 	}
 	defer file.Close()
 
 	// Decode image
-	img, _, err := image.Decode(file)
-	if err != nil {
-		throwMessage(c, "Format gambar tidak didukung")
+	img, _, _ := image.Decode(file)
+	if img == nil {
+		log.Fatalf("img nil")
 	}
 
 	// Convert ke black and white
 	result := convertToBlackAndWhite(img, 128)
-	buf, err := convertImageToBuffer(result)
-	if err != nil {
-		throwMessage(c, "Gagal mengconvert image ke buffer")
+
+	buf, _ := convertImageToBuffer(result)
+	if buf == nil {
+		log.Fatal("Gagal convert image ke black and white")
 	}
 
 	return buf
@@ -66,6 +79,7 @@ func processImage(c *gin.Context, folder string, filename string) *bytes.Buffer 
 
 	// fmt.Println("Gambar berhasil diproses")
 	// return result_filename
+	// return nil
 }
 
 func convertToBlackAndWhite(img image.Image, threshold uint8) *image.Gray {
@@ -97,7 +111,6 @@ func convertImageToBuffer(img image.Image) (*bytes.Buffer, error) {
 
 func throwMessage(c *gin.Context, message string) {
 	c.JSON(400, gin.H{"message": message})
-	return
 }
 
 func main() {
@@ -111,6 +124,10 @@ func main() {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
+
+	// router.GET("/", func(c *gin.Context) {
+	// 	c.String(http.StatusOK, "Server berjalan!")
+	// })
 
 	router.POST("/upload", postHandler)
 	fmt.Println("http://localhost:8080")
