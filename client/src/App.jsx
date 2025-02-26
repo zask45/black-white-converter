@@ -12,7 +12,7 @@ const App = () => {
     formData.append("image", image)
 
     try {
-      const response = await fetch("https://localhost:8080/upload", {
+      const response = await fetch("http://localhost:8080/upload", {
         method: "POST",
         body: formData,
       })
@@ -42,6 +42,7 @@ const App = () => {
       </div> 
 
       <img src={image} />
+      <img id="preview" />
       
       <div class="flex flex-col items-center">
           <button class="bg-blue-600 font-semibold text-white px-2 py-2 rounded" onClick={processImage}>Upload gambar</button>
