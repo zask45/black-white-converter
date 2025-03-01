@@ -28,6 +28,13 @@ const App = () => {
   }
 
   const downloadImage = () => {
+    const link = document.createElement("a")
+    link.href = image
+    link.download = "result.png"
+
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   const convertImage = async() => {
