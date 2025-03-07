@@ -46,12 +46,7 @@ const App = () => {
   const convertImage = async() => {
     const formData = new FormData()
     formData.append("file", selectedFile)
-
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1])
-    }
     
-
     try {
       const response = await fetch("http://localhost:8080/upload", {
         method: "POST",
@@ -63,7 +58,6 @@ const App = () => {
       const blob = await response.blob()
       const imgUrl = URL.createObjectURL(blob)
   
-      // document.getElementById("preview").src = imgUrl
       setImage(imgUrl)
       setIsConverted(true)
 
