@@ -80,7 +80,7 @@ const App = () => {
                 <p id="file-info" class="text-xs text-gray-500 dark:text-gray-400">PNG FILE</p>
             </div>
 
-            <input id="dropzone-file" type="file" accept="image/*" class="hidden" onChange={handleChange} />
+            <input id="dropzone-file" type="file" accept="image/png" class="hidden" onChange={handleChange} />
 
           </label>
         )}
