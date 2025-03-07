@@ -69,7 +69,7 @@ const App = () => {
 
   return (
     <>
-      <div class="flex items-center justify-center w-screen h-[45rem] px-10 py-8">
+      <div class="flex items-center justify-center w-95 h-[33rem] px-6 pt-4 pb-4">
         {showDropzone && (
           <label id="dropzone" for="dropzone-file" class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
             <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -89,7 +89,7 @@ const App = () => {
       </div> 
       
       <div class="flex flex-col items-center">
-          <button id="action-btn" class="bg-blue-600 font-semibold text-white px-2 py-2 rounded" onClick={handleClick}>Upload gambar</button>
+          <button id="action-btn" class="bg-slate-300 font-semibold text-white px-2 py-2 rounded" onClick={handleClick}>Convert image</button>
       </div>
     </>
   )
