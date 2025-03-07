@@ -3,14 +3,14 @@ import { useState } from "react"
 const App = () => {
   const [image, setImage] = useState()
   const [selectedFile, setSelectedFile] = useState(null)
-  const [isReadyToConvert, setIsReadyToConvert] = useState(true)
+  const [isNotReadyToConvert, setIsNotReadyToConvert] = useState(true)
   const [isConverted, setIsConverted] = useState(false)
 
   if (isConverted) {
     document.getElementById("action-btn").textContent = "Download"
   }
 
-  if (!isReadyToConvert) {
+  if (isNotReadyToConvert==false) {
     document.getElementById("action-btn").classList.remove("cursor-not-allowed")
     document.getElementById("action-btn").classList.remove("bg-slate-400")
     document.getElementById("action-btn").classList.add("bg-blue-400")
@@ -22,7 +22,7 @@ const App = () => {
     setImage(URL.createObjectURL(file))
     setSelectedFile(file)
 
-    setIsReadyToConvert(false)
+    setIsNotReadyToConvert(false)
   }
 
   const handleClick = () => {
@@ -76,7 +76,7 @@ const App = () => {
   return (
     <>
       <div class="flex items-center justify-center w-95 h-[45rem] px-6 pt-4 pb-4">
-        {isReadyToConvert && (
+        {isNotReadyToConvert && (
           <label id="dropzone" for="dropzone-file" class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
             <div class="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -96,7 +96,7 @@ const App = () => {
       </div> 
       
       <div class="flex flex-col items-center">
-          <button id="action-btn" class="bg-slate-400 font-semibold text-white px-2 py-2 rounded cursor-not-allowed" onClick={handleClick} disabled={isReadyToConvert}>Convert image</button>
+          <button id="action-btn" class="bg-slate-400 font-semibold text-white px-2 py-2 rounded cursor-not-allowed" onClick={handleClick} disabled={isNotReadyToConvert}>Convert image</button>
       </div>
     </>
   )
