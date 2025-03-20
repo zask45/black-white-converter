@@ -1,16 +1,14 @@
+import { use } from "react"
 import { useState } from "react"
 
 const App = () => {
   const [image, setImage] = useState()
+  const [btnText, setBtnText] = useState("Convert image")
   const [selectedFile, setSelectedFile] = useState(null)
   const [isNotReadyToConvert, setIsNotReadyToConvert] = useState(true)
-  const [isConverted, setIsConverted] = useState(false)
+  const [isConverted, setIsConverted] = useState()
 
-  if (isConverted) {
-    document.getElementById("action-btn").textContent = "Download"
-  }
-
-  if (isNotReadyToConvert==false) {
+  if (isNotReadyToConvert == false) {
     document.getElementById("action-btn").classList.remove("cursor-not-allowed")
     document.getElementById("action-btn").classList.remove("bg-slate-400")
     document.getElementById("action-btn").classList.add("bg-blue-400")
@@ -23,6 +21,8 @@ const App = () => {
     setSelectedFile(file)
 
     setIsNotReadyToConvert(false)
+    setBtnText("Convert image")
+    setIsConverted(false)
   }
 
   const handleClick = () => {
@@ -59,6 +59,7 @@ const App = () => {
       const imgUrl = URL.createObjectURL(blob)
   
       setImage(imgUrl)
+      setBtnText("Download image")
       setIsConverted(true)
 
     } catch(error) {
@@ -93,7 +94,7 @@ const App = () => {
       </div> 
       
       <div class="flex flex-col items-center">
-          <button id="action-btn" class="bg-slate-400 font-semibold text-white px-2 py-2 rounded cursor-not-allowed" onClick={handleClick} disabled={isNotReadyToConvert}>Convert image</button>
+          <button id="action-btn" class="bg-slate-400 font-semibold text-white px-2 py-2 rounded cursor-not-allowed" onClick={handleClick} disabled={isNotReadyToConvert}>{btnText}</button>
       </div>
     </>
   )
