@@ -79,13 +79,16 @@ const App = () => {
                 <p class="mb-2 text-md text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                 <p id="file-info" class="text-sm text-gray-500 dark:text-gray-400">PNG FILE</p>
             </div>
-
-            <input id="dropzone-file" type="file" accept="image/png" class="hidden" onChange={handleChange} />
-
           </label>
         )}
 
-        <img id="preview" src={image} class="h-full"/>
+        {!isNotReadyToConvert && (
+          <label id="preview-of-input" for="dropzone-file" class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+            <img id="preview" src={image} class="h-full"/>
+          </label>
+        )}
+
+        <input id="dropzone-file" type="file" accept="image/png" class="hidden" onChange={handleChange} />
 
       </div> 
       
